@@ -222,7 +222,7 @@ volatile unsigned int *_wiringPiTimerIrqRaw ;
 static volatile unsigned int piGpioBase = 0 ;
 static volatile unsigned int piGpioPinMuxBase = 0 ;
 
-const char *piModelNames [24] =
+const char *piModelNames [25] =
 {
   "Model A",	//  0
   "Model B",	//  1
@@ -248,6 +248,7 @@ const char *piModelNames [24] =
   "X3 SDB", // 21
   "RDK X3", // 22
   "RDK X3 V1.2", // 23
+  "RDK X3 V2", // 24
 } ;
 
 const char *piRevisionNames [16] =
@@ -385,8 +386,8 @@ static int pinToGpioR2 [64] =
 } ;
 
 
-// X3 PI
-static int pinToGpioX3PI [64] =
+// RDK X3
+static int pinToGpioRdkX3 [64] =
 {
   106, 107, // 0, 1
   9, 8,
@@ -403,6 +404,33 @@ static int pinToGpioX3PI [64] =
   7, 29,
   105,
   5,
+
+// Padding
+  -1, -1, -1, -1,
+
+// Padding:
+
+  -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,	// ... 47
+  -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,	// ... 63
+} ;
+
+// RDK X3 V2
+static int pinToGpioRdkX3V2 [64] =
+{
+  15, 14, // 0, 1
+  9, 8,
+  101, 119,
+  118, 28,
+   5, 7,
+   6, 3, // 10, 11
+  25, 4,
+  111, 112,
+  20, 12,
+  102, 103,
+  108, 104,  // 20, 21
+  30, 27,
+  22, 29,
+  117,  13,
 
 // Padding
   -1, -1, -1, -1,
@@ -485,7 +513,7 @@ static int physToGpioR2 [64] =
   -1, -1,
 } ;
 
-static int physToGpioX3PI [64] =
+static int physToGpioRdkX3 [64] =
 {
   -1,		// 0
   -1, -1,	// 1, 2
@@ -511,6 +539,46 @@ static int physToGpioX3PI [64] =
   103, 3,
   105, 104,
   -1, 108,
+
+// the P5 connector on the Rev 2 boards:
+
+  -1, -1,
+  -1, -1,
+  -1, -1,
+  -1, -1,
+  -1, -1,
+  -1, -1,
+  -1, -1,
+  -1, -1,
+  -1, -1,
+  -1, -1,
+  -1, -1,
+} ;
+
+static int physToGpioRdkX3V2 [64] =
+{
+  -1,		// 0
+  -1, -1,	// 1, 2
+   9, -1,
+   8, -1,
+   101, 111,
+  -1, 112,
+  12, 102,
+  13, -1,
+  30, 27,
+  -1, 22,
+  6, -1,
+  7, 29,
+  3, 5,
+  -1, 28,	// 25, 26
+
+   15,  14,
+   119, -1,
+   118, 25,
+  4, -1,
+  103, 20,
+  117, 108,
+  -1, 104,
 
 // the P5 connector on the Rev 2 boards:
 
@@ -1488,6 +1556,8 @@ int piGpioLayout (void)
     gpioLayout = 5 ;
   else if (strcmp (c, "604") == 0)
     gpioLayout = 6 ;
+  else if (strcmp (c, "804") == 0)
+    gpioLayout = 8 ;
   else
     gpioLayout = 3 ; // Covers everything else from the B revision 2 to the B+, the Pi v2, v3, zero and CM's.
 
@@ -1643,6 +1713,7 @@ void piBoardId (int *model, int *rev, int *mem, int *maker, int *warranty)
   else if (strcmp (c, "404") == 0) { *model = PI_MODEL_SDB  ; *rev = PI_VERSION_4   ; *mem = 3 ; *maker = PI_MAKER_HORIZON  ; }
   else if (strcmp (c, "504") == 0) { *model = PI_MODEL_RDKX3 ; *rev = PI_VERSION_1   ; *mem = 3 ; *maker = PI_MAKER_HORIZON    ; }
   else if (strcmp (c, "604") == 0) { *model = PI_MODEL_RDKX3V1_2 ; *rev = PI_VERSION_1   ; *mem = 3 ; *maker = PI_MAKER_HORIZON    ; }
+  else if (strcmp (c, "804") == 0) { *model = PI_MODEL_RDKX3V2 ; *rev = PI_VERSION_1   ; *mem = 3 ; *maker = PI_MAKER_HORIZON    ; }
   else                             { *model = PI_MODEL_SDB  ; *rev = PI_VERSION_3   ; *mem = 3 ; *maker = PI_MAKER_HORIZON ;               }
 }
 
@@ -2998,8 +3069,13 @@ int wiringPiSetup (void)
   }
   else if (gpioLayout == 5 || gpioLayout == 6)
   {
-     pinToGpio =  pinToGpioX3PI ;
-    physToGpio = physToGpioX3PI ;
+     pinToGpio =  pinToGpioRdkX3 ;
+    physToGpio = physToGpioRdkX3 ;
+  }
+  else if (gpioLayout == 8)
+  {
+     pinToGpio =  pinToGpioRdkX3V2 ;
+    physToGpio = physToGpioRdkX3V2 ;
   }
   else 					// A2, B2, A+, B+, CM, Pi2, Pi3, Zero, Zero W, Zero 2 W
   {
@@ -3142,8 +3218,13 @@ int wiringPiSetupSys (void)
   }
   else if (gpioLayout == 5 || gpioLayout == 6)
   {
-     pinToGpio =  pinToGpioX3PI ;
-    physToGpio = physToGpioX3PI ;
+     pinToGpio =  pinToGpioRdkX3 ;
+    physToGpio = physToGpioRdkX3 ;
+  }
+  else if (gpioLayout == 8)
+  {
+     pinToGpio =  pinToGpioRdkX3V2 ;
+    physToGpio = physToGpioRdkX3V2 ;
   }
   else 					// A2, B2, A+, B+, CM, Pi2, Pi3, Zero, Zero W, Zero 2 W
   {

@@ -217,6 +217,74 @@ static char *physNamesRdkX3 [64] =
      NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,
 } ;
 
+
+static int physToGpioRdkX3V2 [64] =
+{
+   -1,           // 0
+   -1,  -1,       // 1, 2
+    9,  -1,
+    8,  -1,
+  101, 111,
+   -1, 112,
+   12, 102,
+   13,  -1,
+   30,  27,
+   -1,  22,
+    6,  -1,
+    7,  29,
+    3,   5,
+   -1,  28,       // 25, 26
+   15,  14,
+  119,  -1,
+  118,  25,
+    4,  -1,
+  103,  20,
+  117, 108,
+   -1, 104,
+   -1,  -1,
+   -1,  -1,
+   -1,  -1,
+   -1,  -1,
+   -1,  -1,
+   -1,  -1,
+   -1,  -1,
+   -1,  -1, -1, -1, -1, -1, -1, -1, -1
+} ;
+
+static char *physNamesRdkX3V2 [64] =
+{
+  NULL,
+
+  "     3.3v", "5v       ",
+  "    SDA.0", "5v       ",
+  "    SCL.0", "0v       ",
+  "I2S0_MCLK", "TxD.3    ",
+  "       0v", "RxD.3    ",
+  " GPIO. 17", "I2S0_BCLK",
+  " GPIO. 27", "0v       ",
+  " GPIO. 22", "GPIO. 23 ",
+  "     3.3v", "GPIO. 24 ",
+  "SPI1_MOSI", "0v       ",
+  "SPI1_MISO", "GPIO. 25 ",
+  "SPI1_SCLK", "SPI1_CSN ",
+  "       0v", "GPIO.  7 ",
+  "    SDA.3", "SCL.3    ",
+  "  GPIO. 5", "0v       ",
+  "  GPIO. 6", "PWM4     ",
+  "     PWM0", "0v       ",
+  "I2S0_LRCK", "GPIO. 16 ",
+  "  GPIO.26", "I2S1_SDIO",
+  "       0v", "I2S0_SDIO",
+         NULL, NULL,
+         NULL, NULL,
+         NULL, NULL,
+         NULL, NULL,
+         NULL, NULL,
+         NULL, NULL,
+         NULL, NULL,
+     NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,
+} ;
+
 /*
  * readallPhys:
  *	Given a physical pin output the data on it and the next pin:
@@ -356,6 +424,8 @@ static void plus2header (int model)
     printf (" +-----+-----+-----------+--RDK X3--+-----------+-----+-----+\n") ;
   else if (model == PI_MODEL_RDKX3V1_2)
     printf (" +-----+-----+-----------+RDK X3v1.2+-----------+-----+-----+\n") ;
+  else if (model == PI_MODEL_RDKX3V2)
+    printf (" +-----+-----+-----------+-RDK X3v2-+-----------+-----+-----+\n") ;
   else if (model == PI_MODEL_SDB)
     printf (" +-----+-----+-----------+--X3 SDB--+-----------+-----+-----+\n") ;
   else
@@ -431,6 +501,10 @@ void doReadall (void)
   else if (model == PI_MODEL_RDKX3 || model == PI_MODEL_SDB || model == PI_MODEL_RDKX3V1_2) {
     physToGpio = physToGpioRdkX3;
     physToNames = physNamesRdkX3;
+    x3Readall(model, rev);
+  } else if (model == PI_MODEL_RDKX3V2) {
+    physToGpio = physToGpioRdkX3V2;
+    physToNames = physNamesRdkX3V2;
     x3Readall(model, rev);
   } else
     printf ("Oops - unable to determine board type... model: %d\n", model) ;

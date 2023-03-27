@@ -107,6 +107,7 @@
 #define	PI_MODEL_SDB		21
 #define	PI_MODEL_RDKX3		22
 #define PI_MODEL_RDKX3V1_2 23
+#define PI_MODEL_RDKX3V2 24
 
 #define	PI_VERSION_1		0
 #define	PI_VERSION_1_1		1
@@ -121,7 +122,7 @@
 #define	PI_MAKER_HORIZON	3
 #define	PI_MAKER_UNKNOWN	4
 
-extern const char *piModelNames    [24] ;
+extern const char *piModelNames    [25] ;
 extern const char *piRevisionNames [16] ;
 extern const char *piMakerNames    [16] ;
 extern const int   piMemorySize    [ 8] ;
