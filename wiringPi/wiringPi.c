@@ -246,7 +246,7 @@ const char *piModelNames [23] =
   "Pi 400",	// 19
   "CM4",	// 20
   "X3 SDB", // 21
-  "X3 PI", // 22
+  "RDK X3", // 22
 } ;
 
 const char *piRevisionNames [16] =
@@ -1638,7 +1638,7 @@ void piBoardId (int *model, int *rev, int *mem, int *maker, int *warranty)
 
   /**/ if (strcmp (c, "304") == 0) { *model = PI_MODEL_SDB  ; *rev = PI_VERSION_3   ; *mem = 3 ; *maker = PI_MAKER_HORIZON  ; }
   else if (strcmp (c, "404") == 0) { *model = PI_MODEL_SDB  ; *rev = PI_VERSION_4   ; *mem = 3 ; *maker = PI_MAKER_HORIZON  ; }
-  else if (strcmp (c, "504") == 0) { *model = PI_MODEL_X3PI ; *rev = PI_VERSION_1   ; *mem = 3 ; *maker = PI_MAKER_HORIZON    ; }
+  else if (strcmp (c, "504") == 0) { *model = PI_MODEL_RDKX3 ; *rev = PI_VERSION_1   ; *mem = 3 ; *maker = PI_MAKER_HORIZON    ; }
   else                             { *model = PI_MODEL_SDB  ; *rev = PI_VERSION_3   ; *mem = 3 ; *maker = PI_MAKER_HORIZON ;               }
 }
 
@@ -3007,7 +3007,7 @@ int wiringPiSetup (void)
 
   switch (model)
   {
-    case PI_MODEL_X3PI:
+    case PI_MODEL_RDKX3:
       piGpioBase = 0xA6003000;
       piGpioPinMuxBase = 0xA6004000;
       break;
@@ -3075,7 +3075,7 @@ int wiringPiSetup (void)
 //       piGpioBase = GPIO_PERI_BASE_2711 ;
 //       piGpioPupOffset = GPPUPPDN0 ;
 //       break ;
-//     case PI_MODEL_X3PI:
+//     case PI_MODEL_RDKX3:
 //       piGpioBase = 0xA6003000;
 //       break;
 //     default:

@@ -383,8 +383,8 @@ static void plus2header (int model)
     printf (" +-----+-----+---------+------+---+---Pi 4B--+---+------+---------+-----+-----+\n") ;
   else if (model == PI_MODEL_400)
     printf (" +-----+-----+---------+------+---+---Pi 400-+---+------+---------+-----+-----+\n") ;
-  else if (model == PI_MODEL_X3PI)
-    printf (" +-----+-----+-----------+---X3 PI--+-----------+-----+-----+\n") ;
+  else if (model == PI_MODEL_RDKX3)
+    printf (" +-----+-----+-----------+--RDK X3--+-----------+-----+-----+\n") ;
   else if (model == PI_MODEL_SDB)
     printf (" +-----+-----+-----------+--X3 SDB--+-----------+-----+-----+\n") ;
   else
@@ -455,7 +455,7 @@ void doReadall (void)
     piPlusReadall (model) ;
   else if ((model == PI_MODEL_CM) || (model == PI_MODEL_CM3) || (model == PI_MODEL_CM3P) )
     allReadall () ;
-  else if (model == PI_MODEL_X3PI || model == PI_MODEL_SDB)
+  else if (model == PI_MODEL_RDKX3 || model == PI_MODEL_SDB)
     x3Readall(model, rev);
   else
     printf ("Oops - unable to determine board type... model: %d\n", model) ;

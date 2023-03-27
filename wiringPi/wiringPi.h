@@ -105,7 +105,7 @@
 #define	PI_MODEL_400		19
 #define	PI_MODEL_CM4		20
 #define	PI_MODEL_SDB		21
-#define	PI_MODEL_X3PI		22
+#define	PI_MODEL_RDKX3		22
 
 #define	PI_VERSION_1		0
 #define	PI_VERSION_1_1		1
