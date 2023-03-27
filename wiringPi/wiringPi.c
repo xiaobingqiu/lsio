@@ -222,7 +222,7 @@ volatile unsigned int *_wiringPiTimerIrqRaw ;
 static volatile unsigned int piGpioBase = 0 ;
 static volatile unsigned int piGpioPinMuxBase = 0 ;
 
-const char *piModelNames [25] =
+const char *piModelNames [26] =
 {
   "Model A",	//  0
   "Model B",	//  1
@@ -249,6 +249,7 @@ const char *piModelNames [25] =
   "RDK X3", // 22
   "RDK X3 V1.2", // 23
   "RDK X3 V2", // 24
+  "RDK X3 Module", // 25
 } ;
 
 const char *piRevisionNames [16] =
@@ -1558,6 +1559,8 @@ int piGpioLayout (void)
     gpioLayout = 6 ;
   else if (strcmp (c, "804") == 0)
     gpioLayout = 8 ;
+  else if (strcmp (c, "b04") == 0)
+    gpioLayout = 0xb ;
   else
     gpioLayout = 3 ; // Covers everything else from the B revision 2 to the B+, the Pi v2, v3, zero and CM's.
 
@@ -1714,6 +1717,7 @@ void piBoardId (int *model, int *rev, int *mem, int *maker, int *warranty)
   else if (strcmp (c, "504") == 0) { *model = PI_MODEL_RDKX3 ; *rev = PI_VERSION_1   ; *mem = 3 ; *maker = PI_MAKER_HORIZON    ; }
   else if (strcmp (c, "604") == 0) { *model = PI_MODEL_RDKX3V1_2 ; *rev = PI_VERSION_1   ; *mem = 3 ; *maker = PI_MAKER_HORIZON    ; }
   else if (strcmp (c, "804") == 0) { *model = PI_MODEL_RDKX3V2 ; *rev = PI_VERSION_1   ; *mem = 3 ; *maker = PI_MAKER_HORIZON    ; }
+  else if (strcmp (c, "b04") == 0) { *model = PI_MODEL_RDKX3MD ; *rev = PI_VERSION_1   ; *mem = 3 ; *maker = PI_MAKER_HORIZON    ; }
   else                             { *model = PI_MODEL_SDB  ; *rev = PI_VERSION_3   ; *mem = 3 ; *maker = PI_MAKER_HORIZON ;               }
 }
 
@@ -3072,7 +3076,7 @@ int wiringPiSetup (void)
      pinToGpio =  pinToGpioRdkX3 ;
     physToGpio = physToGpioRdkX3 ;
   }
-  else if (gpioLayout == 8)
+  else if (gpioLayout == 8 || gpioLayout == 0xb)
   {
      pinToGpio =  pinToGpioRdkX3V2 ;
     physToGpio = physToGpioRdkX3V2 ;
@@ -3221,7 +3225,7 @@ int wiringPiSetupSys (void)
      pinToGpio =  pinToGpioRdkX3 ;
     physToGpio = physToGpioRdkX3 ;
   }
-  else if (gpioLayout == 8)
+  else if (gpioLayout == 8 || gpioLayout == 0xb)
   {
      pinToGpio =  pinToGpioRdkX3V2 ;
     physToGpio = physToGpioRdkX3V2 ;

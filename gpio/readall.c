@@ -426,6 +426,8 @@ static void plus2header (int model)
     printf (" +-----+-----+-----------+RDK X3v1.2+-----------+-----+-----+\n") ;
   else if (model == PI_MODEL_RDKX3V2)
     printf (" +-----+-----+-----------+-RDK X3v2-+-----------+-----+-----+\n") ;
+  else if (model == PI_MODEL_RDKX3MD)
+    printf (" +-----+-----+-----------+-RDK X3MD-+-----------+-----+-----+\n") ;
   else if (model == PI_MODEL_SDB)
     printf (" +-----+-----+-----------+--X3 SDB--+-----------+-----+-----+\n") ;
   else
@@ -502,7 +504,7 @@ void doReadall (void)
     physToGpio = physToGpioRdkX3;
     physToNames = physNamesRdkX3;
     x3Readall(model, rev);
-  } else if (model == PI_MODEL_RDKX3V2) {
+  } else if (model == PI_MODEL_RDKX3V2 || model == PI_MODEL_RDKX3MD) {
     physToGpio = physToGpioRdkX3V2;
     physToNames = physNamesRdkX3V2;
     x3Readall(model, rev);
