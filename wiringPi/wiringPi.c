@@ -222,7 +222,7 @@ volatile unsigned int *_wiringPiTimerIrqRaw ;
 static volatile unsigned int piGpioBase = 0 ;
 static volatile unsigned int piGpioPinMuxBase = 0 ;
 
-const char *piModelNames [23] =
+const char *piModelNames [24] =
 {
   "Model A",	//  0
   "Model B",	//  1
@@ -247,6 +247,7 @@ const char *piModelNames [23] =
   "CM4",	// 20
   "X3 SDB", // 21
   "RDK X3", // 22
+  "RDK X3 V1.2", // 23
 } ;
 
 const char *piRevisionNames [16] =
@@ -1484,9 +1485,11 @@ int piGpioLayout (void)
   else if (strcmp (c, "404") == 0)
     gpioLayout = 4 ;
   else if (strcmp (c, "504") == 0)
-    gpioLayout = 5 ;	// Covers everything else from the B revision 2 to the B+, the Pi v2, v3, zero and CM's.
+    gpioLayout = 5 ;
+  else if (strcmp (c, "604") == 0)
+    gpioLayout = 6 ;
   else
-    gpioLayout = 3 ;
+    gpioLayout = 3 ; // Covers everything else from the B revision 2 to the B+, the Pi v2, v3, zero and CM's.
 
   if (wiringPiDebug)
     printf ("piGpioLayoutOops: Returning Board type: %d\n", gpioLayout) ;
@@ -1639,6 +1642,7 @@ void piBoardId (int *model, int *rev, int *mem, int *maker, int *warranty)
   /**/ if (strcmp (c, "304") == 0) { *model = PI_MODEL_SDB  ; *rev = PI_VERSION_3   ; *mem = 3 ; *maker = PI_MAKER_HORIZON  ; }
   else if (strcmp (c, "404") == 0) { *model = PI_MODEL_SDB  ; *rev = PI_VERSION_4   ; *mem = 3 ; *maker = PI_MAKER_HORIZON  ; }
   else if (strcmp (c, "504") == 0) { *model = PI_MODEL_RDKX3 ; *rev = PI_VERSION_1   ; *mem = 3 ; *maker = PI_MAKER_HORIZON    ; }
+  else if (strcmp (c, "604") == 0) { *model = PI_MODEL_RDKX3V1_2 ; *rev = PI_VERSION_1   ; *mem = 3 ; *maker = PI_MAKER_HORIZON    ; }
   else                             { *model = PI_MODEL_SDB  ; *rev = PI_VERSION_3   ; *mem = 3 ; *maker = PI_MAKER_HORIZON ;               }
 }
 
@@ -2992,7 +2996,7 @@ int wiringPiSetup (void)
      pinToGpio =  pinToGpioR1 ;
     physToGpio = physToGpioR1 ;
   }
-  else if (gpioLayout == 5)
+  else if (gpioLayout == 5 || gpioLayout == 6)
   {
      pinToGpio =  pinToGpioX3PI ;
     physToGpio = physToGpioX3PI ;
@@ -3136,7 +3140,7 @@ int wiringPiSetupSys (void)
      pinToGpio =  pinToGpioR1 ;
     physToGpio = physToGpioR1 ;
   }
-  else if (gpioLayout == 5)
+  else if (gpioLayout == 5 || gpioLayout == 6)
   {
      pinToGpio =  pinToGpioX3PI ;
     physToGpio = physToGpioX3PI ;

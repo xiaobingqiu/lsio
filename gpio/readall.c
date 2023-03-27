@@ -42,6 +42,9 @@ extern int wpMode ;
 #  define       FALSE   (1==2)
 #endif
 
+static int *physToGpio ;
+static char **physToNames ;
+
 /*
  * doReadallExternal:
  *	A relatively crude way to read the pins on an external device.
@@ -147,7 +150,7 @@ static char *physNames [64] =
    NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,
 } ;
 
-static int physToX3GPIO [64] =
+static int physToGpioRdkX3 [64] =
 {
    -1,           // 0
    -1,  -1,       // 1, 2
@@ -180,7 +183,7 @@ static int physToX3GPIO [64] =
    -1,  -1, -1, -1, -1, -1, -1, -1, -1
 } ;
 
-static char *physNamesX3PI [64] =
+static char *physNamesRdkX3 [64] =
 {
   NULL,
 
@@ -214,7 +217,6 @@ static char *physNamesX3PI [64] =
      NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,
 } ;
 
-
 /*
  * readallPhys:
  *	Given a physical pin output the data on it and the next pin:
@@ -229,21 +231,21 @@ static void readallPhys (int physPin)
   if (physPinToGpio (physPin) == -1)
     printf (" |     |    ") ;
   else
-    printf (" | %3d | %3d", physPinToGpio (physPin), physToX3GPIO [physPin]) ;
+    printf (" | %3d | %3d", physPinToGpio (physPin), physToGpio [physPin]) ;
 
-  printf (" | %s", physNamesX3PI [physPin]) ;
+  printf (" | %s", physToNames [physPin]) ;
 
   printf (" | %2d", physPin) ;
   ++physPin ;
   printf (" || %-2d", physPin) ;
 
 
-  printf (" | %-5s", physNamesX3PI [physPin]) ;
+  printf (" | %-5s", physToNames [physPin]) ;
 
   if (physPinToGpio (physPin) == -1)
     printf (" |     |    ") ;
   else
-    printf (" | %-3d | %-3d", physToX3GPIO [physPin], physPinToGpio (physPin)) ;
+    printf (" | %-3d | %-3d", physToGpio [physPin], physPinToGpio (physPin)) ;
 
   printf (" |\n") ;
 }
@@ -328,7 +330,7 @@ void abReadall (int model, int rev)
 
 static void plus2header (int model)
 {
-  /**/ if (model == PI_MODEL_AP)
+  if (model == PI_MODEL_AP)
     printf (" +-----+-----+---------+------+---+---Pi A+--+---+------+---------+-----+-----+\n") ;
   else if (model == PI_MODEL_BP)
     printf (" +-----+-----+---------+------+---+---Pi B+--+---+------+---------+-----+-----+\n") ;
@@ -352,6 +354,8 @@ static void plus2header (int model)
     printf (" +-----+-----+---------+------+---+---Pi 400-+---+------+---------+-----+-----+\n") ;
   else if (model == PI_MODEL_RDKX3)
     printf (" +-----+-----+-----------+--RDK X3--+-----------+-----+-----+\n") ;
+  else if (model == PI_MODEL_RDKX3V1_2)
+    printf (" +-----+-----+-----------+RDK X3v1.2+-----------+-----+-----+\n") ;
   else if (model == PI_MODEL_SDB)
     printf (" +-----+-----+-----------+--X3 SDB--+-----------+-----+-----+\n") ;
   else
@@ -418,13 +422,17 @@ void doReadall (void)
 	(model == PI_MODEL_3AP)  ||
 	(model == PI_MODEL_3B)   || (model == PI_MODEL_3BP) ||
 	(model == PI_MODEL_4B)   || (model == PI_MODEL_400) || (model == PI_MODEL_CM4) ||
-	(model == PI_MODEL_ZERO) || (model == PI_MODEL_ZERO_W) || (model == PI_MODEL_ZERO_2W))
+	(model == PI_MODEL_ZERO) || (model == PI_MODEL_ZERO_W) || (model == PI_MODEL_ZERO_2W)) {
+    physToGpio = physToWpi;
+    physToNames = physNames;
     piPlusReadall (model) ;
-  else if ((model == PI_MODEL_CM) || (model == PI_MODEL_CM3) || (model == PI_MODEL_CM3P) )
+  } else if ((model == PI_MODEL_CM) || (model == PI_MODEL_CM3) || (model == PI_MODEL_CM3P) )
     allReadall () ;
-  else if (model == PI_MODEL_RDKX3 || model == PI_MODEL_SDB)
+  else if (model == PI_MODEL_RDKX3 || model == PI_MODEL_SDB || model == PI_MODEL_RDKX3V1_2) {
+    physToGpio = physToGpioRdkX3;
+    physToNames = physNamesRdkX3;
     x3Readall(model, rev);
-  else
+  } else
     printf ("Oops - unable to determine board type... model: %d\n", model) ;
 }
 
