@@ -233,43 +233,10 @@ static void readallPhys (int physPin)
 
   printf (" | %s", physNamesX3PI [physPin]) ;
 
-  // if (physToWpi [physPin] == -1)
-  //   printf (" |      |  ") ;
-  // else
-  // {
-  //   /**/ if (wpMode == WPI_MODE_GPIO)
-  //     pin = physPinToGpio (physPin) ;
-  //   else if (wpMode == WPI_MODE_PHYS)
-  //     pin = physPin ;
-  //   else
-  //     pin = physToWpi [physPin] ;
-
-  //   printf (" | %4s", alts [getAlt (pin)]) ;
-  //   printf (" | %d", digitalRead (pin)) ;
-  // }
-
-// Pin numbers:
-
   printf (" | %2d", physPin) ;
   ++physPin ;
   printf (" || %-2d", physPin) ;
 
-// Same, reversed
-
-  // if (physToWpi [physPin] == -1)
-  //   printf (" |   |     ") ;
-  // else
-  // {
-  //   /**/ if (wpMode == WPI_MODE_GPIO)
-  //     pin = physPinToGpio (physPin) ;
-  //   else if (wpMode == WPI_MODE_PHYS)
-  //     pin = physPin ;
-  //   else
-  //     pin = physToWpi [physPin] ;
-
-  //   printf (" | %d", digitalRead (pin)) ;
-  //   printf (" | %-4s", alts [getAlt (pin)]) ;
-  // }
 
   printf (" | %-5s", physNamesX3PI [physPin]) ;
 
