@@ -19,7 +19,7 @@ git clone https://gitee.com/study-dp/WiringPi.git
 
 ```bash
 cd WiringPi
-./build.sh
+./build
 ```
 
 build.sh 脚本会自动完成WiringPi库的编译与安装。
