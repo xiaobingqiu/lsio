@@ -22,4 +22,12 @@
  ***********************************************************************
  */
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 extern int rht03Setup (const int pinBase, const int devicePin) ;
+
+#ifdef __cplusplus
+}
+#endif

@@ -21,6 +21,10 @@
  ***********************************************************************
  */
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 extern void lcd128x64setOrigin         (int x, int y) ;
 extern void lcd128x64setOrientation    (int orientation) ;
 extern void lcd128x64orientCoordinates (int *x, int *y) ;
@@ -37,3 +41,7 @@ extern void lcd128x64update            (void) ;
 extern void lcd128x64clear             (int colour) ;
 
 extern int  lcd128x64setup             (void) ;
+
+#ifdef __cplusplus
+}
+#endif

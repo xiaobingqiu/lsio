@@ -22,6 +22,11 @@
  ***********************************************************************
  */
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
+
 extern void scrollPhatPoint      (int x, int y, int colour) ;
 extern void scrollPhatLine       (int x0, int y0, int x1, int y1, int colour) ;
 extern void scrollPhatLineTo     (int x, int y, int colour) ;
@@ -37,3 +42,7 @@ extern void scrollPhatPrintSpeed (const int cps10) ;
 
 extern void scrollPhatIntensity  (const int percent) ;
 extern int  scrollPhatSetup      (void) ;
+
+#ifdef __cplusplus
+}
+#endif

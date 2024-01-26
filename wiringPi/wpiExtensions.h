@@ -22,5 +22,12 @@
  ***********************************************************************
  */
 
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 extern int loadWPiExtension (char *progName, char *extensionData, int verbose) ;
+
+#ifdef __cplusplus
+}
+#endif

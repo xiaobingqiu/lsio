@@ -23,4 +23,12 @@
  ***********************************************************************
  */
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 extern int pseudoPinsSetup (const int pinBase) ;
+
+#ifdef __cplusplus
+}
+#endif
